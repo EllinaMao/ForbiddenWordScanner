@@ -1,0 +1,113 @@
+﻿<Window x:Class="UserMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User Monitor" Height="600" Width="900"
+        Background="#FF101010"
+        WindowStartupLocation="CenterScreen"
+        TextInput="MainWindow_TextInput">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FFBB5500"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Foreground" Value="#FFBB5500"/>
+            <Setter Property="Background" Value="#FF303030"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="#FF202020"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FFBB5500"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="15">
+        <TabControl Name="MainTabControl" Background="#FF101010" BorderBrush="Transparent" KeyboardNavigation.TabNavigation="Local">
+            <TabItem Header="Настройки">
+                <StackPanel Margin="15">
+                    <TextBlock Text="Включить мониторинг клавиатуры:"/>
+                    <CheckBox Name="KeyboardCheckBox" Foreground="White" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="Включить мониторинг процессов:"/>
+                    <CheckBox Name="ProcessCheckBox" Foreground="White" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="Включить модерирование:"/>
+                    <CheckBox Name="ModerationCheckBox" Foreground="White" Margin="0,5,0,10"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Загрузить запрещённые слова" Click="LoadForbiddenWords_Click"/>
+                        <TextBox Name="ForbiddenWordsBox" Background="#FF202020" Foreground="White" Margin="5,0,0,0" Width="400"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Button Content="Загрузить запрещённые программы" Click="LoadForbiddenApps_Click"/>
+                        <TextBox Name="ForbiddenAppsBox" Background="#FF202020" Foreground="White" Margin="5,0,0,0" Width="400"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Content="Выбрать папку для отчётов" Click="SelectReportFolder_Click"/>
+                        <TextBox Name="ReportPathBox" Background="#FF202020" Foreground="White" Margin="5,0,0,0" Width="400"/>
+                    </StackPanel>
+
+                    <Button Content="Сохранить настройки" Click="SaveSettings_Click" Margin="0,10,0,0"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Мониторинг">
+                <StackPanel Margin="15">
+                    <TextBlock Text="Статус мониторинга:"/>
+                    <ProgressBar Name="MonitoringProgressBar" Margin="0,5,0,10" Minimum="0" Maximum="100"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Запустить мониторинг" Click="StartMonitoring_Click"/>
+                        <Button Content="Остановить мониторинг" Click="StopMonitoring_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Отчёт">
+                <StackPanel Margin="15">
+                    <TextBlock Text="Отчёт по клавишам:"/>
+                    <Button Content="Преобразовать раскладку" Click="ConvertLayoutButton_Click" Margin="0,5,0,10"/>
+                    <DataGrid Name="KeyboardDataGrid" Height="200" Background="#FF101010" Foreground="White" AutoGenerateColumns="True"/>
+
+                    <TextBlock Text="Отчёт по процессам:" Margin="0,10,0,0"/>
+                    <DataGrid Name="ProcessDataGrid" Height="200" Background="#FF101010" Foreground="White" AutoGenerateColumns="True"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
